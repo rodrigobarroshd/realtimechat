@@ -48,9 +48,9 @@ To maintain visual and logical consistency:
 
 1. Clone the repository:
 
-git clone https://github.com/rodrigobarroshd/realtime-chat.git
+git clone https://github.com/rodrigobarroshd/realtimechat.git
 
-2. Install dependencies:
+1. Install dependencies:
 
 npm install
 
