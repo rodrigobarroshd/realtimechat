@@ -15,21 +15,25 @@ export default withAuth(
       pathname.startsWith(route)
     )
 
-    if (isLoginPage) {
-      if (isAuth) {
-        return NextResponse.redirect(new URL('/dashboard', req.url))
-      }
-
-      return NextResponse.next()
+    if (isLoginPage && isAuth) {
+      return NextResponse.redirect(new URL('/dashboard', req.url))
     }
 
+    // Redirect unauthenticated users from sensitive routes
     if (!isAuth && isAccessingSensitiveRoute) {
       return NextResponse.redirect(new URL('/login', req.url))
     }
 
+    // Redirect from home page
     if (pathname === '/') {
-      return NextResponse.redirect(new URL('/dashboard', req.url))
+      if (isAuth) {
+        return NextResponse.redirect(new URL('/dashboard', req.url))
+      } else {
+        return NextResponse.redirect(new URL('/login', req.url))
+      }
     }
+
+    return NextResponse.next()
   },
   {
     callbacks: {
@@ -41,5 +45,5 @@ export default withAuth(
 )
 
 export const config = {
-  matchter: ['/', '/login', '/dashboard/:path*'],
+  matcher: ['/', '/login', '/dashboard/:path*'],
 }
