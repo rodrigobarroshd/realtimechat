@@ -1,8 +1,8 @@
+export const runtime = 'nodejs'
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-
 const JWT_SECRET = process.env.JWT_SECRET!
 
 if (!JWT_SECRET) {
