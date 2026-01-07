@@ -35,31 +35,31 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error('Dados de login necessários')
-        }
+        if (!credentials?.email || !credentials?.password) return null
+    
+      
+        const userId = await fetchRedis("get", `user:email:${credentials.email}`)
+        if (!userId) return null
 
-        // Busca o usuário no Prisma (Neon/Postgres)
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email }
-        })
-
-        if (!user || !user.password) {
-          throw new Error('Usuário não encontrado ou senha não definida')
-        }
-
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
-
-        if (!isPasswordValid) {
-          throw new Error('Senha incorreta')
-        }
-
-        // Retorna o objeto user para ser guardado no JWT
+     
+        const userResult = await fetchRedis("get", `user:${userId}`)
+        if (!userResult) return null
+        
+        if (!userResult) return null
+    
+        const user = JSON.parse(userResult)
+    
+      
+        const isValid = await bcrypt.compare(credentials.password, user.hashedPassword)
+    
+        if (!isValid) return null
+    
+        
         return {
           id: user.id,
           name: user.name,
           email: user.email,
-          image: user.image,
+         
         }
       }
     })
@@ -67,8 +67,7 @@ export const authOptions: NextAuthOptions = {
   
   callbacks: {
     async jwt({ token, user }) {
-      // No momento do login, o objeto 'user' está disponível. 
-      // Preenchemos o token IMEDIATAMENTE.
+      // 1. No momento do login/registro (quando o parâmetro 'user' existe)
       if (user) {
         return {
           ...token,
@@ -78,23 +77,25 @@ export const authOptions: NextAuthOptions = {
           picture: user.image,
         }
       }
-
-      // Nas chamadas subsequentes, tentamos atualizar com o Redis
+  
+      // 2. Em requisições subsequentes, buscamos os dados atualizados
       try {
-        const dbUserResult = (await fetchRedis('get', `user:${token.id}`)) as string | null
+        const dbUserResult = await fetchRedis('get', `user:${token.id}`) as string | null
         if (!dbUserResult) return token
-
+  
         const dbUser = JSON.parse(dbUserResult)
+  
         return {
           id: dbUser.id,
           name: dbUser.name,
           email: dbUser.email,
           picture: dbUser.image,
         }
-      } catch (error) {
+      } catch {
         return token
       }
     },
+    
 
     async session({ session, token }) {
       if (token) {

@@ -457,9 +457,19 @@ const SignInCard = () => {
 
               </motion.div>
               
-              <div className="text-center mt-6">
-                <a href="#" className="text-blue-500 hover:text-blue-400 text-sm transition-colors">
+              <div className="mt-6 flex justify-between text-sm">
+                <a
+                  href="/forgot-password"
+                  className="text-blue-500 hover:text-blue-400 transition-colors"
+                >
                   Forgot password?
+                </a>
+
+                <a
+                  href="/register"
+                  className="text-blue-500 hover:text-blue-400 transition-colors"
+                >
+                  Create account
                 </a>
               </div>
             </form>

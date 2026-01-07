@@ -1,10 +1,6 @@
 'use client'
 
-import Button from '@/components/ui/Button'
 import { FC, useState } from 'react'
-import { signIn } from 'next-auth/react'
-import { toast } from 'react-hot-toast'
-import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Index from '@/components/ui/signin-signup/travel-connect-signin'
 
@@ -14,45 +10,43 @@ const Page: FC = () => {
   const [password, setPassword] = useState('')
   const router = useRouter()
 
-  async function loginWithGoogle() {
-    setIsLoading(true)
-    try {
-      await signIn('google')
-    } catch (error) {
-      // display error message to user
-      toast.error('Something went wrong with your login.')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  // Login com email e senha
-  async function loginWithEmail(e: React.FormEvent) {
-    e.preventDefault()
-    setIsLoading(true)
+  // async function loginWithGoogle() {
+  //   setIsLoading(true)
+  //   try {
+  //     await signIn('google')
+  //   } catch (error) {
+  //     toast.error('Something went wrong with your login.')
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  // }
+  // async function loginWithEmail(e: React.FormEvent) {
+  //   e.preventDefault()
+  //   setIsLoading(true)
   
-    try {
-      const res = await signIn('credentials', {
-        email,
-        password,
-        redirect: false, // Mantemos false para você tratar o sucesso/erro com toast
-      })
+  //   try {
+  //     const res = await signIn('credentials', {
+  //       email,
+  //       password,
+  //       redirect: false, // Mantemos false para você tratar o sucesso/erro com toast
+  //     })
   
-      if (res?.error) {
-        toast.error('Invalid email or password')
-      } else {
-        toast.success('Logged in successfully!')
-        router.refresh() // Atualiza o estado da página
-        router.push('/dashboard')
-      }
-    } catch (error) {
-      toast.error('Something went wrong')
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  //     if (res?.error) {
+  //       toast.error('Invalid email or password')
+  //     } else {
+  //       toast.success('Logged in successfully!')
+  //       router.refresh() // Atualiza o estado da página
+  //       router.push('/dashboard')
+  //     }
+  //   } catch (error) {
+  //     toast.error('Something went wrong')
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  // }
 
   return (
+    <Index/>
     // <div className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
     //   <div className='w-full flex flex-col items-center max-w-md space-y-8'>
     //     <div className='flex flex-col items-center gap-8'>
@@ -116,7 +110,7 @@ const Page: FC = () => {
     //     </Button>
     //   </div>
     // </div>
-      <Index/>
+     
   )
 }
 
