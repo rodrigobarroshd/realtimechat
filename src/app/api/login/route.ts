@@ -3,16 +3,16 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-const JWT_SECRET = process.env.JWT_SECRET!
 
-if (!JWT_SECRET) {
-  throw new Error('JWT_SECRET not defined')
-}
 
 export async function POST(req: Request) {
   try {
     const { email, password } = await req.json()
+    const JWT_SECRET = process.env.JWT_SECRET!
 
+    if (!JWT_SECRET) {
+      throw new Error('JWT_SECRET not defined')
+    }
     if (!email || !password) {
       return NextResponse.json(
         { message: 'Missing fields' },
