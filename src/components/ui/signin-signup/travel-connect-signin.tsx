@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useRef, useEffect } from "react";
+import React, { FC, useState, useRef, useEffect } from "react";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -162,6 +162,7 @@ const DotMap = () => {
 
     // Draw background dots
     function drawDots() {
+      if (!ctx) return;
       ctx.clearRect(0, 0, dimensions.width, dimensions.height);
       
       // Draw the dots
@@ -188,6 +189,7 @@ const DotMap = () => {
         const y = route.start.y + (route.end.y - route.start.y) * progress;
         
         // Draw the route line
+        if (!ctx) return;
         ctx.beginPath();
         ctx.moveTo(route.start.x, route.start.y);
         ctx.lineTo(x, y);
@@ -480,7 +482,7 @@ const SignInCard = () => {
   );
 };
 
-const Index = () => {
+const LoginIndex = () => {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#060818] to-[#0d1023] p-4">
       <SignInCard />
@@ -488,4 +490,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default LoginIndex;

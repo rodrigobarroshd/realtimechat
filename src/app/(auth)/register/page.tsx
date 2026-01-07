@@ -1,11 +1,9 @@
 'use client'
 
-import { FC, useEffect, useRef, useState } from 'react'
-import Button from '@/components/ui/Button'
+import React, { useEffect, useState, useRef, FC } from 'react';
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import React from 'react'
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import { signIn } from 'next-auth/react'
 
@@ -174,8 +172,8 @@ const DotMap = () => {
 
     // Draw background dots
     function drawDots() {
+      if (!ctx) return;
       ctx.clearRect(0, 0, dimensions.width, dimensions.height);
-      
       // Draw the dots
       dots.forEach(dot => {
         ctx.beginPath();
@@ -200,6 +198,8 @@ const DotMap = () => {
         const y = route.start.y + (route.end.y - route.start.y) * progress;
         
         // Draw the route line
+        if (!ctx) return;
+
         ctx.beginPath();
         ctx.moveTo(route.start.x, route.start.y);
         ctx.lineTo(x, y);

@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken'
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret' // Coloque no .env
 
 export async function POST(req: Request) {
+  
   try {
     const { email, password } = await req.json()
 
@@ -18,7 +19,13 @@ export async function POST(req: Request) {
     if (!user) {
       return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 })
     }
+    
+    if (!user) return null;
 
+    if (!user.password) {
+      console.error("Usuário encontrado, mas sem senha cadastrada.");
+      return null;
+    }
     const isValid = await bcrypt.compare(password, user.password)
     if (!isValid) {
       return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 })

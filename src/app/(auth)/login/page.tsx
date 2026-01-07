@@ -2,7 +2,7 @@
 
 import { FC, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Index from '@/components/ui/signin-signup/travel-connect-signin'
+import LoginIndex from '@/components/ui/signin-signup/travel-connect-signin'
 
 const Page: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -46,7 +46,8 @@ const Page: FC = () => {
   // }
 
   return (
-    <Index/>
+    <LoginIndex/>
+    
     // <div className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
     //   <div className='w-full flex flex-col items-center max-w-md space-y-8'>
     //     <div className='flex flex-col items-center gap-8'>
