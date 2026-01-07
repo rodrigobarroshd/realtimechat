@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import { signIn } from 'next-auth/react'
-
+export const dynamic = 'force-dynamic';
 const SignUpPage: FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState('')
