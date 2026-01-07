@@ -482,12 +482,11 @@ const SignInCard = () => {
   );
 };
 
-const LoginIndex = () => {
+// Substitua o final do seu arquivo por isso:
+export default function LoginPage() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#060818] to-[#0d1023] p-4">
       <SignInCard />
     </div>
   );
-};
-
-export default LoginIndex;
+}
